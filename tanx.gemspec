@@ -5,7 +5,7 @@ require 'tanx/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "tanx"
-  spec.version       = Tanx::VERSION
+  spec.version       = "0.0.1"
   spec.authors       = ["Partho Ghosh"]
   spec.email         = ["partho.ghosh24@gmail.com"]
 

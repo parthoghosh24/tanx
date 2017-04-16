@@ -1,6 +1,6 @@
 module Utils
   def self.media_path(file)
-    File.join(File.dirname(File.dirname(__FILE__)),'../media',file)
+    File.join(File.dirname(File.dirname(__FILE__)),'/media',file)
   end
 
   def self.track_update_interval
@@ -18,7 +18,7 @@ module Utils
   end
 
   def self.button_down?(button)
-    @buttons || = {}
+    @buttons ||= {}
     now = Gosu.milliseconds
     now = now - (now % 150)
     if $window.button_down?(button)
