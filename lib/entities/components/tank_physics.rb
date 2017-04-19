@@ -10,7 +10,7 @@ class TankPhysics < Component
   end
 
   def can_move_to?(x,y)
-    @map.can_move_to(x,y)
+    @map.can_move_to?(x,y)
   end
 
   def moving?

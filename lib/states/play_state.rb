@@ -1,11 +1,13 @@
 require 'ruby-prof' if ENV['ENABLE_PROFILING']
 class PlayState < GameState
+  attr_accessor :update_interval
+
   def initialize
     @map = Map.new
-    @tank = Tank.new(@map)
-    @camera = Camera.new(@tank)
-    @bullets = []
-    @explosions = []
+    @camera = Camera.new
+    @object_pool = ObjectPool.new(@map)
+    @tank = Tank.new(@object_pool, PlayerInput.new(@camera))
+    @camera.target = @tank
   end
 
   def enter
@@ -21,13 +23,10 @@ class PlayState < GameState
   end
 
   def update
-    bullet = @tank.update(@camera)
-    @bullets << bullet if bullet
-    @bullets.map(&:update)
-    @bullets.reject!(&:done?)
+    @object_pool.objects.map(&:update)
+    @object_pool.objects.reject(&:removable?)
     @camera.update
     update_caption
-
   end
 
   def draw
@@ -35,23 +34,22 @@ class PlayState < GameState
     cam_y = @camera.y
     off_x = $window.width / 2 - cam_x
     off_y = $window.height / 2 - cam_y
+    viewport = @camera.viewport
     $window.translate(off_x,off_y) do
       zoom = @camera.zoom
       $window.scale(zoom,zoom,cam_x,cam_y) do
-        @map.draw(@camera)
-        @tank.draw
-        @bullets.map(&:draw)
+        @map.draw(viewport)
+        @object_pool.objects.map {|object| object.draw(viewport)}
       end
     end
     @camera.draw_crosshair
   end
 
   def button_down(id)
-    if id == Gosu::MsLeft
-      bullet = @tank.shoot(*@camera.mouse_coords)
-      @bullets << bullet if bullet
+    if id == Gosu::KbQ
+      leave
+      $window.close
     end
-    $window.close if id == Gosu::KbQ
     GameState.switch(MenuState.instance) if id == Gosu::KbEscape
   end
 

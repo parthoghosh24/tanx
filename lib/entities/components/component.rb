@@ -14,7 +14,7 @@ class Component
 
   protected
 
-  def object = (obj)
+  def object=(obj)
     if obj
       @object = obj
       obj.components << self

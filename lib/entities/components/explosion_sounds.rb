@@ -1,4 +1,4 @@
-class BulletSounds
+class ExplosionSounds
   class << self
     def play
       sound.play
@@ -7,7 +7,7 @@ class BulletSounds
     private
 
     def sound
-      @@sound ||= Gosu::Sample.new($window,Utils.media_path('fire.mp3'))
+      @@sound ||= Gosu::Sample.new($window,Utils.media_path('explosion.mp3'))
     end
   end
 end
