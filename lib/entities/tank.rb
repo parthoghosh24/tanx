@@ -9,7 +9,8 @@ class Tank < GameObject
     @physics = TankPhysics.new(self,object_pool)
     @graphics = TankGraphics.new(self)
     @sounds = TankSounds.new(self)
-    @direction = @gun_angle = 0.0
+    @direction = rand(0..7) * 45
+    @gun_angle = rand(0..360)
   end
 
   def shoot(target_x, target_y)

@@ -8,6 +8,9 @@ class PlayState < GameState
     @object_pool = ObjectPool.new(@map)
     @tank = Tank.new(@object_pool, PlayerInput.new(@camera))
     @camera.target = @tank
+    50.times do
+      Tank.new(@object_pool, AiInput.new)
+    end
   end
 
   def enter
