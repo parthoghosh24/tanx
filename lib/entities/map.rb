@@ -31,7 +31,6 @@ class Map
   end
 
   def draw(viewport)
-    puts "viewport #{viewport}"
     viewport.map! {|p| p/TILE_SIZE}
     x0,x1,y0,y1 = viewport.map(&:to_i)
     (x0..x1).each do |x|

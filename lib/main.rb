@@ -1,7 +1,6 @@
 require "gosu"
 
 root_dir = File.dirname(__FILE__)
-puts "root_dir #{root_dir}"
 required_pattern=File.join(root_dir,'**/*.rb')
 @failed = []
 

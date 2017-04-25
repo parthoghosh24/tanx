@@ -24,7 +24,7 @@ class PlayState < GameState
 
   def update
     @object_pool.objects.map(&:update)
-    @object_pool.objects.reject(&:removable?)
+    @object_pool.objects.reject!(&:removable?)
     @camera.update
     update_caption
   end

@@ -1,7 +1,6 @@
 class Tank < GameObject
-
-  attr_accessor :x, :y, :throttle_down, :direction, :gun_angle, :sounds, :physics
   SHOOT_DELAY = 500
+  attr_accessor :x, :y, :throttle_down, :direction, :gun_angle, :sounds, :physics
 
   def initialize(object_pool, input)
     super(object_pool)
