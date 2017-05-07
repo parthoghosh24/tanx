@@ -1,4 +1,38 @@
 module Utils
+  def self.rotate(angle, around_x, around_y, *points)
+    result = []
+    angle = angle * Math::PI / 180.0
+    points.each_slice(2) do |x,y|
+      rot_x = Math.cos(angle) * (around_x - x) - Math.sin(angle) * (around_y - y) + around_x
+      rot_y = Math.sin(angle) * (around_x - x) + Math.cos(angle) * (around_y - y) + around_y
+      result << rot_x
+      result << rot_y
+    end
+    result
+  end
+
+    # http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+  def self.point_in_poly(testx, testy, *poly)
+    nvert = poly.size / 2
+    vertx = []
+    verty = []
+    poly.each_slice(2) do |x,y|
+      vertx << x
+      verty << y
+    end
+    inside = false
+    j = nvert - 1
+    (0..nvert - 1).each do |idx|
+      if(((verty[idx] > testy) != (verty[j] > testy)) &&
+        (testx < (vertx[j] - vertx[idx]) * (testy - verty[idx]) /
+        (verty[j] - verty[idx]) + vertx[idx]))
+        inside = !inside
+      end
+      j = idx
+    end
+    inside
+  end
+
   def self.media_path(file)
     File.join(File.dirname(File.dirname(__FILE__)),'/media',file)
   end
@@ -15,6 +49,12 @@ module Utils
 
   def self.adjust_speed(speed)
     speed * update_interval / 33.33
+  end
+
+  def self.distance_between(x1,y1,x2,y2)
+    dx = x1 - x2
+    dy = y1 - y2
+    Math.sqrt(dx * dx + dy * dy)
   end
 
   def self.button_down?(button)
