@@ -130,14 +130,14 @@ class TankPhysics < Component
 
   def collides_with_poly?(poly)
     if poly
-      if poly.size == 2
-        px,py = poly
-        return Utils.point_in_poly(px,py,*poly)
-      end
+      # if poly.size == 2
+      #   px,py = poly
+      #   return Utils.point_in_poly(px,py,*poly)
+      # end
       poly.each_slice(2) do |x,y|
         return true if Utils.point_in_poly(x,y,*box)
       end
-      poly.each_slice(2) do |x,y|
+      box.each_slice(2) do |x,y|
         return true if Utils.point_in_poly(x,y,*poly)
       end
     end
