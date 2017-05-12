@@ -46,6 +46,16 @@ class Map
     end
   end
 
+  def movement_pentalty(x,y)
+    tile = tile_at(x,y)
+    case tile
+    when @sand
+      0.33
+    else
+      0
+    end
+  end
+
   private
 
   def tile_at(x,y)

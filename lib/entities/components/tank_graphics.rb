@@ -11,7 +11,7 @@ class TankGraphics < Component
     @shadow.draw_rot(x-1,y-1,0,object.direction)
     @body.draw_rot(x,y,1,object.direction)
     @gun.draw_rot(x,y,2,object.gun_angle)
-    draw_bounding_box
+    # draw_bounding_box
   end
 
   def draw_bounding_box

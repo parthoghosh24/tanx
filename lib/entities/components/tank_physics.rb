@@ -44,7 +44,8 @@ class TankPhysics < Component
     end
     if @speed > 0
       new_x,new_y = x,y
-      shift = Utils.adjust_speed(@speed)
+      speed = apply_movement_penalty(@speed)
+      shift = Utils.adjust_speed(speed)
       case @object.direction.to_i
       when 0
         new_y -= shift
@@ -117,6 +118,19 @@ class TankPhysics < Component
                  )
   end
 
+  def change_direction(new_direction)
+    change = (new_direction - object.direction + 360) % 360
+    change = 360 - change if change > 180
+    if change > 90
+      @speed = 0
+    elsif change > 45
+      @speed *= 0.33
+    elsif change > 0
+      @speed *= 0.66
+    end
+    object.direction = new_direction
+  end
+
   private
 
   def accelerate
@@ -147,4 +161,9 @@ class TankPhysics < Component
   def collides_with_point?(x,y)
     Utils.point_in_poly(x,y,box)
   end
+
+  def apply_movement_penalty(speed)
+    speed *(1.0 - @map.movement_pentalty(x,y))
+  end
+
 end

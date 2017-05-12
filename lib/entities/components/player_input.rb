@@ -15,7 +15,7 @@ class PlayerInput < Component
     motion_buttons = [Gosu::KbW, Gosu::KbS, Gosu::KbA, Gosu::KbD]
     if any_button_down?(*motion_buttons)
       object.throttle_down = true
-      object.direction = change_angle(object.direction, *motion_buttons)
+      object.physics.change_direction(change_angle(object.direction, *motion_buttons))
     else
       object.throttle_down = false
     end
