@@ -1,5 +1,6 @@
 class TankPhysics < Component
-  attr_accessor :speed
+  attr_accessor :speed, :in_collision,
+    :inertia_x, :inertia_y, :collides_with
 
   def initialize(game_object, object_pool)
     super(game_object)
@@ -15,13 +16,14 @@ class TankPhysics < Component
     object.y = y
     return false unless @map.can_move_to?(x,y)
     @object_pool.nearby(object, 100).each do |obj|
+      next if obj.class == Bullet && obj.source == object
       if collides_with_poly?(obj.box)
-        # @collides_with = obj
+        @collides_with = obj
         old_distance = Utils.distance_between(obj.x, obj.y, old_x, old_y)
         new_distance = Utils.distance_between(obj.x, obj.y, x, y)
         return false if new_distance < old_distance
-      # else
-        # @collides_with = nil
+      else
+        @collides_with = nil
       end
     end
     true
@@ -73,7 +75,7 @@ class TankPhysics < Component
         @inertia_x  = @inertia_y = shift
         @in_collision = false
       else
-        object.sounds.collide if @speed > 1  #&& @collides_with.class == Tank
+        object.sounds.collide if @speed > 1  && @collides_with.class == Tank
         @speed = 0.0
         @in_collision = true
       end

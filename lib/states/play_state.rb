@@ -8,8 +8,8 @@ class PlayState < GameState
     @object_pool = ObjectPool.new(@map)
     @tank = Tank.new(@object_pool, PlayerInput.new(@camera))
     @camera.target = @tank
-    50.times do
-      Tank.new(@object_pool, AiInput.new)
+    10.times do
+      Tank.new(@object_pool, AiInput.new(@object_pool))
     end
   end
 
@@ -52,6 +52,10 @@ class PlayState < GameState
     if id == Gosu::KbQ
       leave
       $window.close
+    end
+    if id == Gosu::KbT
+      tank = Tank.new(@object_pool,AiInput.new(@object_pool))
+      tank.x,tank.y = @camera.mouse_coords
     end
     GameState.switch(MenuState.instance) if id == Gosu::KbEscape
   end
